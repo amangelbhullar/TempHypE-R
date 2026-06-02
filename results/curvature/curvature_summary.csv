@@ -1,0 +1,8 @@
+dataset,c_global,c_r_mean,c_r_std,c_r_min,c_r_max,c_r_median,n_relations,checkpoint
+YAGO,0.83393,1.193973,0.198764,0.912479,1.627374,1.173126,10,checkpoints/rhgnn_v4_yago.pt
+ICEWS14,0.042598,0.171434,0.040905,0.042598,0.298045,0.183267,230,checkpoints/rhgnn_v4_icews14.pt
+ICEWS18,0.031674,0.142738,0.028254,0.031674,0.337434,0.145093,256,checkpoints/rhgnn_v4_icews18.pt
+ICEWS05-15,0.015468,0.094697,0.018677,0.067035,0.2068,0.090935,251,checkpoints/rhgnn_v4_icews0515.pt
+WIKI,0.041332,0.099865,0.022828,0.07589,0.162786,0.09146,24,checkpoints/rhgnn_v4_wiki.pt
+tkgl-smallpedia,0.034095,0.093174,0.037398,0.034095,0.210602,0.085542,566,checkpoints/rhgnn_v4_tkgl_smallpedia.pt
+ICEWS14-V5b,0.693147,0.693147,0.0,0.693147,0.693147,0.693147,230,checkpoints/rhgnn_v5_pure_relcurv_icews14.pt
