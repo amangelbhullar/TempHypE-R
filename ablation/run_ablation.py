@@ -1,7 +1,7 @@
 """
-RHGNN Ablation Study
+TempHypE-R Ablation Study
 Tests contribution of each component:
-1. Full RHGNN
+1. Full TempHypE-R
 2. w/o ODE (replace flow with identity)
 3. w/o H-GRU (replace jump with linear update)
 4. w/o Hyperbolic (replace Poincare ball with Euclidean)
@@ -33,9 +33,9 @@ from geoopt.optim import RiemannianAdam
 Quad = Tuple[int, int, int, int]
 
 
-class RHGNNAblation(nn.Module):
+class TempHypERAblation(nn.Module):
     """
-    RHGNN with ablation flags:
+    TempHypE-R with ablation flags:
     - use_ode:       True = Neural ODE flow, False = identity
     - use_hgru:      True = H-GRU jump,      False = linear update
     - use_hyperbolic:True = Poincare ball,    False = Euclidean
@@ -267,7 +267,7 @@ def run_ablation(data_dir, gpu_id=0, epochs=100, seed=42):
         true_tails_map[(hh, rr, ta)].append(tt)
 
     variants = [
-        ("Full RHGNN",          dict(use_ode=True,  use_hgru=True,  use_hyperbolic=True,  use_messages=True)),
+        ("Full TempHypE-R",          dict(use_ode=True,  use_hgru=True,  use_hyperbolic=True,  use_messages=True)),
         ("w/o ODE",             dict(use_ode=False, use_hgru=True,  use_hyperbolic=True,  use_messages=True)),
         ("w/o H-GRU",           dict(use_ode=True,  use_hgru=False, use_hyperbolic=True,  use_messages=True)),
         ("w/o Hyperbolic",      dict(use_ode=True,  use_hgru=True,  use_hyperbolic=False, use_messages=True)),
@@ -279,7 +279,7 @@ def run_ablation(data_dir, gpu_id=0, epochs=100, seed=42):
 
     results = {}
     for name, flags in variants:
-        model = RHGNNAblation(
+        model = TempHypE-RAblation(
             num_entities=data.num_entities,
             num_relations=data.num_relations,
             dim=200, init_curvature=1.0,
@@ -317,11 +317,11 @@ def run_ablation(data_dir, gpu_id=0, epochs=100, seed=42):
         print(f"{name:25s} | {m['MRR']:.4f} | {m['Hits@1']:.4f} | {m['Hits@3']:.4f} | {m['Hits@10']:.4f} | {m['MAR']:.1f}")
 
     # Delta computation
-    full = results["Full RHGNN"]
+    full = results["Full TempHypE-R"]
     print(f"\n{'Variant':25s} | {'ΔMRR':8s} | {'ΔH@10':8s} | {'Drop%':6s}")
     print("-" * 55)
     for name, m in results.items():
-        if name == "Full RHGNN":
+        if name == "Full TempHypE-R":
             continue
         delta_mrr  = m["MRR"]     - full["MRR"]
         delta_h10  = m["Hits@10"] - full["Hits@10"]

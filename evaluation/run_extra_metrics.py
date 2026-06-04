@@ -8,20 +8,20 @@ Extra metrics for paper:
 import torch, sys, re, os, numpy as np
 from collections import defaultdict
 sys.path.insert(0, '.')
-from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs, RHGNN
-from rhgnn_v4 import RHGNNv4
+from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs, TempHypE-R
+from rhgnn_v4 import TempHypE-Rv4
 from rhgnn_v3 import build_history_vocab
 
 DEVICE = torch.device('cuda:0')
 
 def load_v1(data, ckpt_path):
-    model = RHGNN(data.num_entities, data.num_relations, dim=200).to(DEVICE)
+    model = TempHypE-R(data.num_entities, data.num_relations, dim=200).to(DEVICE)
     ckpt  = torch.load(ckpt_path, map_location=DEVICE, weights_only=False)
     model.load_state_dict(ckpt['model_state'])
     return model
 
 def load_v4(data, ckpt_path):
-    model = RHGNNv4(data.num_entities, data.num_relations,
+    model = TempHypERCA(data.num_entities, data.num_relations,
                     dim=200, num_sgcn_layers=2).to(DEVICE)
     model.set_history_vocab(build_history_vocab(data.train))
     ckpt  = torch.load(ckpt_path, map_location=DEVICE, weights_only=False)
@@ -131,13 +131,13 @@ def param_count_table():
                                ('WIKI',   'data/WIKI-clean'),
                                ('YAGO',   'data/YAGO-clean')]:
         data = load_temporal_kg(data_dir)
-        m1   = RHGNN(data.num_entities, data.num_relations, dim=200)
-        m4   = RHGNNv4(data.num_entities, data.num_relations,
+        m1   = TempHypE-R(data.num_entities, data.num_relations, dim=200)
+        m4   = TempHypERCA(data.num_entities, data.num_relations,
                        dim=200, num_sgcn_layers=2)
         p1   = sum(p.numel() for p in m1.parameters() if p.requires_grad)
         p4   = sum(p.numel() for p in m4.parameters() if p.requires_grad)
-        print(f"  {'RHGNN-Base':<20} | {ds_name:<12} | {p1:>12,}")
-        print(f"  {'RHGNN-C':<20} | {ds_name:<12} | {p4:>12,}")
+        print(f"  {'TempHypE-R-Base':<20} | {ds_name:<12} | {p1:>12,}")
+        print(f"  {'TempHypE-R-C':<20} | {ds_name:<12} | {p4:>12,}")
         print(f"  Overhead: +{p4-p1:,} (+{(p4-p1)/p1*100:.1f}%)")
         print()
 
@@ -148,12 +148,12 @@ def loss_smoothness():
     print(f"  {'-'*72}")
 
     log_pairs = [
-        ('RHGNN-Base', 'ICEWS14', 'logs/icews14_v4.log'),
-        ('RHGNN-C',    'ICEWS14', 'logs/rhgnn_v4_icews14.log'),
-        ('RHGNN-Base', 'WIKI',    'logs/wiki_v1.log'),
-        ('RHGNN-C',    'WIKI',    'logs/rhgnn_v4_wiki.log'),
-        ('RHGNN-Base', 'YAGO',    'logs/yago_v2.log'),
-        ('RHGNN-C',    'YAGO',    'logs/rhgnn_v4_yago.log'),
+        ('TempHypE-R-Base', 'ICEWS14', 'logs/icews14_v4.log'),
+        ('TempHypE-R-C',    'ICEWS14', 'logs/rhgnn_v4_icews14.log'),
+        ('TempHypE-R-Base', 'WIKI',    'logs/wiki_v1.log'),
+        ('TempHypE-R-C',    'WIKI',    'logs/rhgnn_v4_wiki.log'),
+        ('TempHypE-R-Base', 'YAGO',    'logs/yago_v2.log'),
+        ('TempHypE-R-C',    'YAGO',    'logs/rhgnn_v4_yago.log'),
     ]
 
     for model_name, ds_name, log_path in log_pairs:
@@ -187,8 +187,8 @@ def run_dataset(ds_name, data_dir, v1_ckpt, v4_ckpt):
         ts_to_real[tid] = raw_ts
 
     for model_name, ckpt_path, loader in [
-        ('RHGNN-Base', v1_ckpt, load_v1),
-        ('RHGNN-C',    v4_ckpt, load_v4),
+        ('TempHypE-R-Base', v1_ckpt, load_v1),
+        ('TempHypE-R-C',    v4_ckpt, load_v4),
     ]:
         if not os.path.exists(ckpt_path):
             print(f"  {model_name}: checkpoint not found — skip")

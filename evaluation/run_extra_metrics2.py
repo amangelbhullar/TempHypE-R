@@ -1,19 +1,19 @@
 import torch, sys, numpy as np
 from collections import defaultdict
 sys.path.insert(0, '.')
-from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs, RHGNN
-from rhgnn_v4 import RHGNNv4
+from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs, TempHypE-R
+from rhgnn_v4 import TempHypE-Rv4
 from rhgnn_v3 import build_history_vocab
 
 DEVICE = torch.device('cuda:0')
 
 def load_v1(data, ckpt):
-    m = RHGNN(data.num_entities, data.num_relations, dim=200).to(DEVICE)
+    m = TempHypE-R(data.num_entities, data.num_relations, dim=200).to(DEVICE)
     m.load_state_dict(torch.load(ckpt, map_location=DEVICE, weights_only=False)['model_state'])
     return m
 
 def load_v4(data, ckpt):
-    m = RHGNNv4(data.num_entities, data.num_relations, dim=200, num_sgcn_layers=2).to(DEVICE)
+    m = TempHypERCA(data.num_entities, data.num_relations, dim=200, num_sgcn_layers=2).to(DEVICE)
     m.set_history_vocab(build_history_vocab(data.train))
     m.load_state_dict(torch.load(ckpt, map_location=DEVICE, weights_only=False)['model_state'])
     return m
@@ -76,8 +76,8 @@ def run(ds_name, data_dir, v1_ckpt, v4_ckpt):
         tid = data.time2id.get(str(raw_ts), raw_ts)
         ts_to_real[tid] = raw_ts
 
-    for name, ckpt, loader in [('RHGNN-Base', v1_ckpt, load_v1),
-                                ('RHGNN-C',   v4_ckpt, load_v4)]:
+    for name, ckpt, loader in [('TempHypE-R-Base', v1_ckpt, load_v1),
+                                ('TempHypE-R-C',   v4_ckpt, load_v4)]:
         try:
             print(f"\n--- {name} ---", flush=True)
             model = loader(data, ckpt)

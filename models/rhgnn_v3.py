@@ -1,5 +1,5 @@
 """
-RHGNN v3 — V2 + Historical Vocabulary + Subgraph Reasoning
+TempHypE-R-MA (V3) — V2 + Historical Vocabulary + Subgraph Reasoning
 """
 import argparse, math, os, random
 from collections import defaultdict
@@ -104,9 +104,9 @@ class SubgraphEncoder(nn.Module):
         out = F.relu(norm(h_self + agg))
         return self.dropout(out)
 
-# ── RHGNN v3 ──────────────────────────────────────────────────────────────────
+# ── TempHypE-R-MA (V3) ──────────────────────────────────────────────────────────────────
 
-class RHGNNv3(nn.Module):
+class TempHypERv3(nn.Module):
     def __init__(self, num_entities, num_relations, dim=200,
                  init_curvature=1.0, dropout=0.1, ode_steps=5,
                  num_sgcn_layers=2, copy_weight=2.0):
@@ -398,7 +398,7 @@ def main():
         train_groups_dict[q[3]].append(q)
     train_groups = sorted(train_groups_dict.items(), key=lambda x: x[0])
 
-    model = RHGNNv3(
+    model = TempHypERMA(
         num_entities  = data.num_entities,
         num_relations = data.num_relations,
         dim           = args.dim,

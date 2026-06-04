@@ -1,12 +1,12 @@
 import torch, sys, re, numpy as np
 from collections import defaultdict
 sys.path.insert(0, '.')
-from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs, RHGNN
+from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs, TempHypE-R
 
 DEVICE = torch.device('cuda:0')
 
 def load_model(data, ckpt_path):
-    model = RHGNN(data.num_entities, data.num_relations, dim=200).to(DEVICE)
+    model = TempHypE-R(data.num_entities, data.num_relations, dim=200).to(DEVICE)
     ckpt  = torch.load(ckpt_path, map_location=DEVICE, weights_only=False)
     model.load_state_dict(ckpt['model_state'])
     return model

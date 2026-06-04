@@ -3,7 +3,7 @@ from collections import defaultdict
 from scipy import stats
 sys.path.insert(0, '.')
 from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs
-from rhgnn_v4 import RHGNNv4
+from rhgnn_v4 import TempHypE-Rv4
 from rhgnn_v3 import build_history_vocab
 from rhgnn_v2 import expmap0, logmap0
 
@@ -11,7 +11,7 @@ DEVICE = torch.device('cuda:0')
 
 def load_v4_variant(data, ckpt, no_history=False, no_hyperbolic=False,
                     no_ode=False, no_hgru=False, no_sgcn=False):
-    m = RHGNNv4(
+    m = TempHypERCA(
         num_entities=data.num_entities,
         num_relations=data.num_relations,
         dim=200, num_sgcn_layers=0 if no_sgcn else 2).to(DEVICE)
@@ -156,7 +156,7 @@ def run_ablation(ds_name, data_dir, base_ckpt, variants):
 
 def main():
     variants = [
-        ('Full RHGNN-C',      {}),
+        ('Full TempHypE-R-C',      {}),
         ('w/o Contrastive',   {}),  # same checkpoint, different training
         ('w/o History Vocab', {'no_history': True}),
         ('w/o Subgraph',      {'no_sgcn': True}),

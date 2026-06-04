@@ -1,5 +1,5 @@
 """
-RHGNN V5 Pure Hyperbolic
+TempHypE-R V5 Pure Hyperbolic
 - All operations stay on Poincare manifold
 - Mobius linear layers (no tangent space approximation)
 - Fixed curvature c=1.0 (standard Poincare ball)
@@ -191,9 +191,9 @@ class HypODE(nn.Module):
             state = expmap0(logmap0(state, c) + dt * vel, c)
         return state
 
-# ── RHGNN V5 Pure ─────────────────────────────────────────────────────────────
+# ── TempHypE-R V5 Pure ─────────────────────────────────────────────────────────────
 
-class RHGNNv5Pure(nn.Module):
+class TempHypERv5Pure(nn.Module):
     def __init__(self, num_entities, num_relations, dim=200,
                  c=1.0, dropout=0.1, ode_steps=5):
         super().__init__()
@@ -406,7 +406,7 @@ def main():
     for q in data.train: train_groups_dict[q[3]].append(q)
     train_groups = sorted(train_groups_dict.items())
 
-    model = RHGNNv5Pure(
+    model = TempHypE-Rv5Pure(
         num_entities=data.num_entities,
         num_relations=data.num_relations,
         dim=args.dim, c=args.curvature,

@@ -1,7 +1,7 @@
 import torch, sys
 sys.path.insert(0, '.')
 from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs, evaluate
-from rhgnn_v2 import RHGNNv2
+from rhgnn_v2 import TempHypE-Rv2
 
 device = torch.device('cuda:0')
 
@@ -17,7 +17,7 @@ for name, data_dir, ckpt_path in datasets:
     for raw_ts in data.sorted_timestamps:
         tid = data.time2id.get(str(raw_ts), raw_ts)
         ts_to_real[tid] = raw_ts
-    model = RHGNNv2(data.num_entities, data.num_relations, dim=200).to(device)
+    model = TempHypERFA(data.num_entities, data.num_relations, dim=200).to(device)
     ckpt  = torch.load(ckpt_path, map_location=device, weights_only=False)
     model.load_state_dict(ckpt['model_state'])
     model.build_nbr_index(snapshots)

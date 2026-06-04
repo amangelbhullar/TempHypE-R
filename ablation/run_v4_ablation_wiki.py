@@ -1,5 +1,5 @@
 """
-RHGNN V4 Ablation Study on WIKI
+TempHypE-R V4 Ablation Study on WIKI
 """
 import torch, sys, math
 from collections import defaultdict
@@ -7,7 +7,7 @@ sys.path.insert(0, '.')
 from rhgnn_end_to_end import set_seed, load_temporal_kg, build_snapshot_graphs, evaluate
 from rhgnn_v2 import adversarial_loss, expmap0, logmap0
 from rhgnn_v3 import build_history_vocab
-from rhgnn_v4 import RHGNNv4, soft_label_loss
+from rhgnn_v4 import TempHypE-Rv4, soft_label_loss
 from geoopt.optim import RiemannianAdam
 
 DEVICE     = torch.device('cuda:0')
@@ -86,7 +86,7 @@ def train_eval(model, train_groups, data, snapshots, ts_to_real,
 
 def make_model(data, no_history=False, no_hyperbolic=False,
                no_ode=False, no_hgru=False, no_sgcn=False, no_smooth=False):
-    model = RHGNNv4(
+    model = TempHypERCA(
         num_entities=data.num_entities, num_relations=data.num_relations,
         dim=200, dropout=0.1, ode_steps=5 if not no_ode else 0,
         num_sgcn_layers=0 if no_sgcn else 2,
@@ -141,7 +141,7 @@ def main():
     train_groups = sorted(train_groups_dict.items())
 
     variants = [
-        ('Full RHGNN-C',      {}, {}),
+        ('Full TempHypE-R-C',      {}, {}),
         ('w/o Contrastive',   {}, {'no_contrast': True}),
         ('w/o Soft Labels',   {}, {'no_soft': True}),
         ('w/o Temp Smooth',   {'no_smooth': True}, {'no_smooth': True}),

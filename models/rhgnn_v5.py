@@ -1,5 +1,5 @@
 """
-RHGNN V5 — True Hyperbolic using geoopt PoincareBall
+TempHypE-R V5 — True Hyperbolic using geoopt PoincareBall
 Numerically stable hyperbolic operations via geoopt manifold
 """
 import argparse, math, os
@@ -14,7 +14,7 @@ from rhgnn_v3 import build_history_vocab, build_history_mask
 
 EPS = 1e-6
 
-class RHGNNv5(nn.Module):
+class TempHypERv5(nn.Module):
     def __init__(self, num_entities, num_relations, dim=200,
                  init_curvature=1.0, dropout=0.1, ode_steps=5):
         super().__init__()
@@ -249,7 +249,7 @@ def main():
     for q in data.train: train_groups_dict[q[3]].append(q)
     train_groups = sorted(train_groups_dict.items())
 
-    model = RHGNNv5(
+    model = TempHypE-Rv5(
         num_entities=data.num_entities, num_relations=data.num_relations,
         dim=args.dim, init_curvature=args.curvature,
         dropout=args.dropout, ode_steps=args.ode_steps).to(device)

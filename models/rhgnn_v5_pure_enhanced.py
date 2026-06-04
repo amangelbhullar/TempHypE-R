@@ -1,5 +1,5 @@
 """
-CA-RHGNN-Pure-C: Fully Hyperbolic with ALL V4 enhancements
+CA-TempHypE-R-Pure-C: Fully Hyperbolic with ALL V4 enhancements
 Adds to V5-Pure:
   - Frequency-aware embeddings (V2)
   - 2-layer HypMP subgraph encoder (V3)
@@ -161,10 +161,10 @@ class HypODE(nn.Module):
             h  = expmap0(logmap0(h, self.c) + dt*dh, self.c)
         return h
 
-# ── Main Model: CA-RHGNN-Pure-C ──────────────────────────────────
-class RHGNNv5PureEnhanced(nn.Module):
+# ── Main Model: CA-TempHypE-R-Pure-C ──────────────────────────────────
+class TempHypERv5PureEnhanced(nn.Module):
     """
-    CA-RHGNN-Pure-C: Fully hyperbolic + all V4 enhancements:
+    CA-TempHypE-R-Pure-C: Fully hyperbolic + all V4 enhancements:
       V2: frequency-aware embeddings
       V3: 2-layer HypMP subgraph
       V4: per-relation curvature + contrastive + soft labels + smoothness
@@ -425,9 +425,9 @@ def main():
     print(f"Dataset: {args.data_dir}")
     print(f"Entities={num_e} | Relations={num_r}")
     print(f"Train={len(kg.train)} | Valid={len(kg.valid)} | Test={len(kg.test)}")
-    print(f"Device: {device} | CA-RHGNN-Pure-C (fully hyperbolic + all V4)")
+    print(f"Device: {device} | CA-TempHypE-R-Pure-C (fully hyperbolic + all V4)")
 
-    model = RHGNNv5PureEnhanced(
+    model = TempHypE-Rv5PureEnhanced(
         num_e, num_r,
         dim=args.dim,
         init_curvature=args.curvature,

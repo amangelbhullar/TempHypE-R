@@ -1,4 +1,4 @@
-# RHGNN: Curvature-Aware Recurrent Hyperbolic GNNs for TKG Reasoning
+# TempHypE-R: Curvature-Aware Recurrent Hyperbolic GNNs for TKG Reasoning
 
 > **Anonymous submission to CIKM 2026**  
 > Paper: *Curvature-Aware Recurrent Hyperbolic GNNs for TKG Reasoning*
@@ -7,21 +7,21 @@
 
 ## Overview
 
-This repository contains the official implementation of the **RHGNN model family** — a systematic suite of six models that progressively combine hyperbolic geometry, gated temporal memory, and continuous dynamics for temporal knowledge graph (TKG) extrapolation.
+This repository contains the official implementation of the **TempHypE-R model family** — a systematic suite of six models that progressively combine hyperbolic geometry, gated temporal memory, and continuous dynamics for temporal knowledge graph (TKG) extrapolation.
 
 Each model adds exactly one component over the previous, enabling clean isolation of each design choice:
 
 | Model | Key Addition | ICEWS14 MRR |
 |-------|-------------|-------------|
-| RHGNN-HLSTM (V1a) | H-LSTM + Neural ODE + Poincaré ball | 0.279 |
-| RHGNN-HGRU (V1b) | H-GRU + temporal decay | 0.294 |
-| RHGNN-FA (V2) | Frequency-aware embeddings | 0.311 |
-| RHGNN-MA (V3) | 2-layer RGCN + historical vocabulary | 0.338 |
-| **RHGNN-CA (V4)** | Per-relation curvature + contrastive loss | **0.344** |
-| RHGNN-FH (V5) | Fully hyperbolic Möbius ops (geometry ablation) | 0.277 |
+| TempHypE-R-HLSTM (V1a) | H-LSTM + Neural ODE + Poincaré ball | 0.279 |
+| TempHypE-R-HGRU (V1b) | H-GRU + temporal decay | 0.294 |
+| TempHypE-R-FA (V2) | Frequency-aware embeddings | 0.311 |
+| TempHypE-R-MA (V3) | 2-layer RGCN + historical vocabulary | 0.338 |
+| **TempHypE-R-CA (V4)** | Per-relation curvature + contrastive loss | **0.344** |
+| TempHypE-R-FH (V5) | Fully hyperbolic Möbius ops (geometry ablation) | 0.277 |
 
 **Key contributions:**
-- The RHGNN model family systematically isolating each design component
+- The TempHypE-R model family systematically isolating each design component
 - Novel evaluation metrics: **H-MRR** and **δ-hyperbolicity** revealing standard MRR underestimates hierarchical reasoning by **1.57–1.90×**
 - Finding: hybrid tangent-space approach outperforms fully Möbius operations while converging **3× faster**
 
@@ -30,7 +30,7 @@ Each model adds exactly one component over the previous, enabling clean isolatio
 ## Repository Structure
 
 ```
-RHGNN-Family/
+TempHypE-R-Family/
 │
 ├── README.md
 ├── requirements.txt
@@ -38,12 +38,12 @@ RHGNN-Family/
 │
 ├── models/                         # Model implementations
 │   ├── __init__.py
-│   ├── rhgnn_v1a.py               # RHGNN-HLSTM: H-LSTM + ODE baseline
-│   ├── rhgnn_v1b.py               # RHGNN-HGRU: H-GRU + temporal decay
-│   ├── rhgnn_v2.py                # RHGNN-FA: frequency-aware embeddings
-│   ├── rhgnn_v3.py                # RHGNN-MA: subgraph + history vocab
-│   ├── rhgnn_v4.py                # RHGNN-CA: full model (best)
-│   ├── rhgnn_v5_pure.py           # RHGNN-FH: fully hyperbolic ablation
+│   ├── rhgnn_v1a.py               # TempHypE-R-HLSTM: H-LSTM + ODE baseline
+│   ├── rhgnn_v1b.py               # TempHypE-R-HGRU: H-GRU + temporal decay
+│   ├── rhgnn_v2.py                # TempHypE-R-FA: frequency-aware embeddings
+│   ├── rhgnn_v3.py                # TempHypE-R-MA: subgraph + history vocab
+│   ├── rhgnn_v4.py                # TempHypE-R-CA: full model (best)
+│   ├── rhgnn_v5_pure.py           # TempHypE-R-FH: fully hyperbolic ablation
 │   │
 │   └── components/                # Shared architectural components
 │       ├── __init__.py
@@ -96,8 +96,8 @@ RHGNN-Family/
 ## Installation
 
 ```bash
-git clone https://github.com/clearsubmission/RHGNN-Family.git
-cd RHGNN-Family
+git clone https://github.com/clearsubmission/TempHypE-R-Family.git
+cd TempHypE-R-Family
 pip install -r requirements.txt
 ```
 
@@ -140,7 +140,7 @@ python data/preprocess.py --dataset ICEWS14 --data_dir data/ICEWS14
 
 ## Training
 
-**Train RHGNN-CA (V4, full model) on ICEWS14:**
+**Train TempHypE-R-CA (V4, full model) on ICEWS14:**
 
 ```bash
 python scripts/train.py \
@@ -208,7 +208,7 @@ bash scripts/run_ablation.sh --dataset YAGO
 | RE-Net | .457 | .429 | .421 |
 | CyGNet | .486 | .467 | .426 |
 | CENET | .534 | .511 | .498 |
-| **RHGNN-CA (Ours)** | **.344** | **.244** | **.422** |
+| **TempHypE-R-CA (Ours)** | **.344** | **.244** | **.422** |
 
 ### Hierarchical datasets
 
@@ -217,11 +217,11 @@ bash scripts/run_ablation.sh --dataset YAGO
 | HyTE | .254 | .144 |
 | RE-Net | .520 | .652 |
 | CENET | .684 | .841 |
-| **RHGNN-CA (Ours)** | **.518** | **.562** |
+| **TempHypE-R-CA (Ours)** | **.518** | **.562** |
 
 ### H-MRR reveals systematic underestimation
 
-Standard MRR underestimates RHGNN-CA's hierarchical reasoning:
+Standard MRR underestimates TempHypE-R-CA's hierarchical reasoning:
 
 | Dataset | Standard MRR | H-MRR | Ratio |
 |---------|-------------|-------|-------|
@@ -242,7 +242,7 @@ H-MRR = Σᵢ (wᵢ / ‖w‖₁) · (1/rankᵢ)
 wᵢ = deg(tᵢ) / maxⱼ deg(j)
 ```
 
-Hub entities (high degree, near Poincaré origin) receive higher weight, revealing that RHGNN-CA is **1.57–1.90× better** than standard MRR suggests.
+Hub entities (high degree, near Poincaré origin) receive higher weight, revealing that TempHypE-R-CA is **1.57–1.90× better** than standard MRR suggests.
 
 **Compute H-MRR:**
 ```python
@@ -274,7 +274,7 @@ Removing it drops MRR by 70% on ICEWS14 and 93% on YAGO. The H-MRR/MRR ratio exp
 
 **2. Hybrid tangent-space beats fully Möbius (V5)**
 
-RHGNN-FH (V5) replaces all operations with Möbius computations. Despite identical components, it converges 3× slower and achieves lower MRR on flat datasets (ICEWS14: 0.277 vs 0.344). Geometric benefits come from **manifold-constrained representations and geodesic scoring**, not curved computation.
+TempHypE-R-FH (V5) replaces all operations with Möbius computations. Despite identical components, it converges 3× slower and achieves lower MRR on flat datasets (ICEWS14: 0.277 vs 0.344). Geometric benefits come from **manifold-constrained representations and geodesic scoring**, not curved computation.
 
 **3. Per-relation curvature discovers geometry automatically**
 

@@ -6,7 +6,7 @@ import torch, math, sys, numpy as np
 from collections import defaultdict
 sys.path.insert(0, '.')
 from rhgnn_end_to_end import (
-    load_temporal_kg, build_snapshot_graphs, RHGNN,
+    load_temporal_kg, build_snapshot_graphs, TempHypE-R,
     train_one_epoch, evaluate
 )
 import torch.nn.functional as F
@@ -14,7 +14,7 @@ import torch.nn.functional as F
 # ── helpers ──────────────────────────────────────────────────────────────────
 
 def make_model(data, dim=200):
-    return RHGNN(data.num_entities, data.num_relations, dim=dim).cuda()
+    return TempHypE-R(data.num_entities, data.num_relations, dim=dim).cuda()
 
 def run_variant(name, data, snapshots, ts_to_real, device,
                 patch_fn=None, epochs=200, patience=40,
@@ -149,7 +149,7 @@ def main():
         ts_to_real[tid] = raw_ts
 
     variants = [
-        ('Full RHGNN',      None),
+        ('Full TempHypE-R',      None),
         ('w/o ODE',         patch_no_ode),
         ('w/o H-GRU',       patch_no_hgru),
         ('w/o Hyperbolic',  patch_no_hyperbolic),

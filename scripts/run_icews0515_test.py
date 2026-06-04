@@ -1,7 +1,7 @@
 import torch, sys
 sys.path.insert(0, '.')
 from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs, evaluate
-from rhgnn_v4 import RHGNNv4
+from rhgnn_v4 import TempHypE-Rv4
 from rhgnn_v3 import build_history_vocab
 
 device = torch.device('cuda:0')
@@ -11,7 +11,7 @@ ts_to_real = {}
 for raw_ts in data.sorted_timestamps:
     tid = data.time2id.get(str(raw_ts), raw_ts)
     ts_to_real[tid] = raw_ts
-model = RHGNNv4(data.num_entities, data.num_relations,
+model = TempHypERCA(data.num_entities, data.num_relations,
                 dim=200, num_sgcn_layers=2).to(device)
 model.set_history_vocab(build_history_vocab(data.train))
 ckpt = torch.load('checkpoints/rhgnn_v4_icews0515.pt',

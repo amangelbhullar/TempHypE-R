@@ -1,5 +1,5 @@
 """
-Hyperbolic-Specific Metrics for RHGNN Paper
+Hyperbolic-Specific Metrics for TempHypE-R Paper
 1. Norm-Hierarchy Correlation (NHC)
 2. Delta-Hyperbolicity Score
 3. Hierarchical MRR (H-MRR)
@@ -11,8 +11,8 @@ import torch, sys, math, numpy as np
 from collections import defaultdict
 from scipy import stats
 sys.path.insert(0, '.')
-from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs, RHGNN
-from rhgnn_v4 import RHGNNv4
+from rhgnn_end_to_end import load_temporal_kg, build_snapshot_graphs, TempHypE-R
+from rhgnn_v4 import TempHypE-Rv4
 from rhgnn_v3 import build_history_vocab
 from rhgnn_v2 import expmap0, logmap0, hyp_distance
 
@@ -22,13 +22,13 @@ EPS    = 1e-6
 # ── Load Models ───────────────────────────────────────────────────────────────
 
 def load_v1(data, ckpt):
-    m = RHGNN(data.num_entities, data.num_relations, dim=200).to(DEVICE)
+    m = TempHypE-R(data.num_entities, data.num_relations, dim=200).to(DEVICE)
     m.load_state_dict(torch.load(ckpt, map_location=DEVICE,
                                  weights_only=False)['model_state'])
     return m
 
 def load_v4(data, ckpt):
-    m = RHGNNv4(data.num_entities, data.num_relations,
+    m = TempHypERCA(data.num_entities, data.num_relations,
                 dim=200, num_sgcn_layers=2).to(DEVICE)
     m.set_history_vocab(build_history_vocab(data.train))
     m.load_state_dict(torch.load(ckpt, map_location=DEVICE,
@@ -407,8 +407,8 @@ def run_dataset(ds_name, data_dir, v1_ckpt, v4_ckpt):
 
     import os
     for model_name, ckpt, loader in [
-        ('RHGNN-Base', v1_ckpt, load_v1),
-        ('RHGNN-C',    v4_ckpt, load_v4),
+        ('TempHypE-R-Base', v1_ckpt, load_v1),
+        ('TempHypE-R-C',    v4_ckpt, load_v4),
     ]:
         if not os.path.exists(ckpt):
             print(f"\n{model_name}: checkpoint not found — skip")

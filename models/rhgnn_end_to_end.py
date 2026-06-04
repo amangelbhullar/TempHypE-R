@@ -153,7 +153,7 @@ class ODEFunc(nn.Module):
         )
     def forward(self, z): return self.net(z)
 
-class RHGNN(nn.Module):
+class TempHypER(nn.Module):
     def __init__(self, num_entities, num_relations, dim=200, init_curvature=1.0, dropout=0.1, ode_steps=5):
         super().__init__()
         self.num_entities  = num_entities
@@ -359,7 +359,7 @@ def create_toy_dataset(data_dir):
     print(f"[toy] Dataset written to {data_dir}/")
 
 def main():
-    parser = argparse.ArgumentParser(description="RHGNN faithful implementation")
+    parser = argparse.ArgumentParser(description="TempHypE-R faithful implementation")
     parser.add_argument("--data_dir",       type=str,   default="data/toy")
     parser.add_argument("--create_toy",     action="store_true")
     parser.add_argument("--epochs",         type=int,   default=200)
@@ -410,7 +410,7 @@ def main():
 
     os.makedirs(os.path.dirname(args.save_path) or ".", exist_ok=True)
 
-    model = RHGNN(
+    model = TempHypE-R(
         num_entities=data.num_entities,
         num_relations=data.num_relations,
         dim=args.dim,

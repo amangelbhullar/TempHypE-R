@@ -1,5 +1,5 @@
 """
-RHGNN V1b — H-GRU + Neural ODE + Hyperbolic (no Freq Emb, no Adv Train)
+TempHypE-R V1b — H-GRU + Neural ODE + Hyperbolic (no Freq Emb, no Adv Train)
 Intermediate between V1 (H-LSTM) and V2 (H-GRU + Freq + Adv)
 Shows contribution of H-GRU alone
 """
@@ -14,9 +14,9 @@ from rhgnn_v2 import expmap0, logmap0, hyp_distance, ODEFunc, adversarial_loss
 
 EPS = 1e-6
 
-class RHGNNv1b(nn.Module):
+class TempHypERv1b(nn.Module):
     """
-    RHGNN with H-GRU (no frequency embeddings, no adversarial training)
+    TempHypE-R with H-GRU (no frequency embeddings, no adversarial training)
     Clean ablation: V1 + H-GRU only
     """
     def __init__(self, num_entities, num_relations, dim=200,
@@ -182,7 +182,7 @@ def main():
 
     set_seed(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Device: {device} | RHGNN-V1b (H-GRU only, no Freq, no Adv)")
+    print(f"Device: {device} | TempHypE-R-V1b (H-GRU only, no Freq, no Adv)")
 
     data      = load_temporal_kg(args.data_dir)
     snapshots = build_snapshot_graphs(data.train)
@@ -199,7 +199,7 @@ def main():
     for q in data.train: train_groups_dict[q[3]].append(q)
     train_groups = sorted(train_groups_dict.items())
 
-    model = RHGNNv1b(
+    model = TempHypE-Rv1b(
         num_entities  = data.num_entities,
         num_relations = data.num_relations,
         dim           = args.dim,

@@ -1,5 +1,5 @@
 """
-RHGNN v2 — Improved with:
+TempHypE-R-FA (V2) — Improved with:
 1. Relation-aware message passing
 2. Multi-hop attention
 3. Frequency-aware entity embedding
@@ -103,9 +103,9 @@ class CopyMechanism(nn.Module):
             return gate * gen_score + (1.0 - gate) * copy_score
         return gen_score
 
-# ── RHGNN v2 ──────────────────────────────────────────────────────────────────
+# ── TempHypE-R-FA (V2) ──────────────────────────────────────────────────────────────────
 
-class RHGNNv2(nn.Module):
+class TempHypERv2(nn.Module):
     def __init__(self, num_entities, num_relations, dim=200,
                  init_curvature=1.0, dropout=0.1, ode_steps=5,
                  use_copy=True, use_time_enc=True, use_freq=True):
@@ -387,7 +387,7 @@ def main():
         train_groups_dict[q[3]].append(q)
     train_groups = sorted(train_groups_dict.items(), key=lambda x: x[0])
 
-    model = RHGNNv2(
+    model = TempHypERFA(
         num_entities  = data.num_entities,
         num_relations = data.num_relations,
         dim           = args.dim,

@@ -1,5 +1,5 @@
 """
-RHGNN v4 — V3 + Contrastive Learning + Soft Labels + 
+TempHypE-R-CA (V4) — V3 + Contrastive Learning + Soft Labels + 
            Relation Path + Curvature Per Relation + 
            Temporal Smoothness + Ensemble ready
 """
@@ -90,9 +90,9 @@ class RelationPathEncoder(nn.Module):
             torch.cat([entity_emb, r_emb], dim=-1)))
         return gate * entity_emb + (1 - gate) * r_emb
 
-# ── RHGNN v4 ──────────────────────────────────────────────────────────────────
+# ── TempHypE-R-CA (V4) ──────────────────────────────────────────────────────────────────
 
-class RHGNNv4(nn.Module):
+class TempHypERv4(nn.Module):
     def __init__(self, num_entities, num_relations, dim=200,
                  init_curvature=1.0, dropout=0.1, ode_steps=5,
                  num_sgcn_layers=2, contrastive_temp=0.07,
@@ -456,7 +456,7 @@ def main():
         train_groups_dict[q[3]].append(q)
     train_groups = sorted(train_groups_dict.items(), key=lambda x: x[0])
 
-    model = RHGNNv4(
+    model = TempHypERCA(
         num_entities     = data.num_entities,
         num_relations    = data.num_relations,
         dim              = args.dim,

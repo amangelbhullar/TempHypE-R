@@ -1,5 +1,5 @@
 """
-RHGNN V5 Euclidean — Same architecture as V5 but without hyperbolic geometry
+TempHypE-R V5 Euclidean — Same architecture as V5 but without hyperbolic geometry
 For fair comparison to show hyperbolic benefit
 """
 import argparse, math, os
@@ -11,7 +11,7 @@ sys.path.insert(0, '.')
 from rhgnn_end_to_end import set_seed, load_temporal_kg, build_snapshot_graphs, evaluate
 from rhgnn_v3 import build_history_vocab, build_history_mask
 
-class RHGNNv5Euclidean(nn.Module):
+class TempHypERv5Euclidean(nn.Module):
     def __init__(self, num_entities, num_relations, dim=200,
                  dropout=0.1, ode_steps=5):
         super().__init__()
@@ -202,7 +202,7 @@ def main():
     for q in data.train: train_groups_dict[q[3]].append(q)
     train_groups = sorted(train_groups_dict.items())
 
-    model = RHGNNv5Euclidean(
+    model = TempHypE-Rv5Euclidean(
         num_entities=data.num_entities, num_relations=data.num_relations,
         dim=args.dim, dropout=args.dropout, ode_steps=args.ode_steps).to(device)
     model.set_history_vocab(history_vocab)
