@@ -1,9 +1,5 @@
 # TempHypE-R: Curvature-Aware Recurrent Hyperbolic GNNs for TKG Reasoning
 
-> **Anonymous submission to CIKM 2026**  
-> Paper: *Curvature-Aware Recurrent Hyperbolic GNNs for TKG Reasoning*
-
----
 
 ## Overview
 
@@ -306,14 +302,7 @@ No manual tuning required.
 ## Citation
 
 ```bibtex
-@inproceedings{anonymous2026rhgnn,
-  title     = {Curvature-Aware Recurrent Hyperbolic {GNN}s for {TKG} Reasoning},
-  author    = {Anonymous},
-  booktitle = {Proceedings of the 35th ACM International Conference on
-               Knowledge and Information Management (CIKM 2026)},
-  year      = {2026},
-  note      = {Under review}
-}
+
 ```
 
 ---
